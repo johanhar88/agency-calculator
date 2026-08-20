@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Database, DollarSign, Users, Trash2, 
-  Save, Layout, Globe, Server, ShieldCheck 
+  Save, Layout, Globe, Server, ShieldCheck, Cpu 
 } from "lucide-react";
 import { getCustomers, deleteCustomer, getPricingConfig, updatePricingConfig } from "@/actions/dbActions";
 import Sidebar from "@/components/Sidebar";
@@ -25,6 +25,10 @@ type PricingConfig = {
   eCommerce: number;
   webApp: number;
   pricePerPage: number;
+  complexityLow: number;
+  complexityMedium: number;
+  complexityHigh: number;
+  complexityVeryHigh: number;
   designCustom: number;
   designPremium: number;
   cmsBasic: number;
@@ -245,6 +249,18 @@ export default function MasterDataPage() {
                   <PriceInput label="Company Profile" name="companyProfile" value={pricing.companyProfile} onChange={handlePriceChange} />
                   <PriceInput label="E-Commerce / Toko Online" name="eCommerce" value={pricing.eCommerce} onChange={handlePriceChange} />
                   <PriceInput label="Web App / SaaS (Custom)" name="webApp" value={pricing.webApp} onChange={handlePriceChange} />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-3xl shadow-sm p-7 border border-slate-200">
+                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                  <Cpu className="text-violet-500" size={22} /> Tingkat Kompleksitas Sistem
+                </h3>
+                <div className="space-y-5">
+                  <PriceInput label="Sederhana (Low Complexity)" name="complexityLow" value={pricing.complexityLow} onChange={handlePriceChange} />
+                  <PriceInput label="Menengah (Medium Complexity)" name="complexityMedium" value={pricing.complexityMedium} onChange={handlePriceChange} />
+                  <PriceInput label="Kompleks (High Complexity)" name="complexityHigh" value={pricing.complexityHigh} onChange={handlePriceChange} />
+                  <PriceInput label="Sangat Kompleks (Enterprise)" name="complexityVeryHigh" value={pricing.complexityVeryHigh} onChange={handlePriceChange} />
                 </div>
               </div>
 

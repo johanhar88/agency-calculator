@@ -5,7 +5,7 @@ import { motion } from "framer-motion"; // Library Animasi
 import CountUp from "react-countup"; // Animasi Angka
 import { 
   Rocket, Layout , UserPlus, Save, 
-  CreditCard , Server , Database, Settings
+  CreditCard , Server , Database, Settings, Cpu
 } from "lucide-react";
 import { getCustomers, createCustomer, saveProject, getPricingConfig } from "@/actions/dbActions";
 import PrintPDF from "@/components/PrintPDF";
@@ -21,6 +21,7 @@ export default function CalculatorPage() {
   // Parameter State
   const [webType, setWebType] = useState("Company Profile");
   const [pages, setPages] = useState(5);
+  const [complexityTier, setComplexityTier] = useState("Sederhana");
   const [designTier, setDesignTier] = useState("Custom");
   const [cmsTier, setCmsTier] = useState("Basic CMS");
   const [paymentGateway, setPaymentGateway] = useState(false);
@@ -49,6 +50,12 @@ export default function CalculatorPage() {
     
     total += pages * pricing.pricePerPage;
     
+    // Biaya Tingkat Kompleksitas
+    if (complexityTier === "Sederhana") total += pricing.complexityLow ?? 0;
+    if (complexityTier === "Menengah") total += pricing.complexityMedium ?? 3500000;
+    if (complexityTier === "Kompleks") total += pricing.complexityHigh ?? 7500000;
+    if (complexityTier === "Sangat Kompleks") total += pricing.complexityVeryHigh ?? 15000000;
+
     if (designTier === "Custom") total += pricing.designCustom;
     if (designTier === "Premium") total += pricing.designPremium;
     if (cmsTier === "Basic CMS") total += pricing.cmsBasic;
@@ -66,7 +73,7 @@ export default function CalculatorPage() {
   const handleSaveProject = async () => {
     if (!selectedCustomerId || !projectName) return alert("Pilih Customer dan isi Nama Proyek terlebih dahulu!");
     await saveProject({
-      name: projectName, webType, pages, designTier, cmsTier, paymentGateway, 
+      name: projectName, webType, pages, complexityTier, designTier, cmsTier, paymentGateway, 
       apiIntegration, securityTier, languages, hostingTier, totalPrice: calculateTotal(), customerId: selectedCustomerId,
     });
     alert("Proyek berhasil disimpan ke database!");
@@ -152,7 +159,6 @@ export default function CalculatorPage() {
              <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><Layout size={20} className="text-indigo-600"/> 2. Spesifikasi Inti</h2>
              <div className="space-y-6">
                 <div>
-                  {/* {// Ganti blok select lama dengan ini:} */}
                   <CustomSelect 
                     label="Tipe Aplikasi / Website"
                     value={webType}
@@ -165,6 +171,35 @@ export default function CalculatorPage() {
                     ]}
                   />
                 </div>
+
+                {/* Tingkat Kompleksitas */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <Cpu size={18} className="text-indigo-600" /> Tingkat Kompleksitas Logika & Fitur
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    {[
+                      { tier: "Sederhana", label: "Sederhana", desc: "CRUD standar & form dasar" },
+                      { tier: "Menengah", label: "Menengah", desc: "Multi-role & alur dinamis" },
+                      { tier: "Kompleks", label: "Kompleks", desc: "Real-time & automasi alur" },
+                      { tier: "Sangat Kompleks", label: "Sangat Kompleks", desc: "Enterprise & high-concurrency" },
+                    ].map((item) => (
+                      <div 
+                        key={item.tier} 
+                        onClick={() => setComplexityTier(item.tier)} 
+                        className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200 flex flex-col justify-between ${
+                          complexityTier === item.tier 
+                            ? 'border-indigo-600 bg-indigo-50/70 text-indigo-700 font-bold shadow-sm ring-1 ring-indigo-600' 
+                            : 'border-slate-200 text-slate-600 hover:border-indigo-300 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="text-sm font-bold">{item.label}</div>
+                        <div className="text-[11px] text-slate-500 font-normal mt-1 leading-snug">{item.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div>
                   <label className="flex items-center justify-between font-semibold text-slate-700 mb-4">
                     <span className="text-sm">Estimasi Jumlah Halaman</span>
@@ -265,6 +300,7 @@ export default function CalculatorPage() {
             
             <div className="space-y-4 text-sm text-blue-100/80 font-medium mb-8">
               <div className="flex justify-between border-b border-white/10 pb-3"><span className="text-white/60">Sistem Dasar:</span> <span className="text-white">{webType}</span></div>
+              <div className="flex justify-between border-b border-white/10 pb-3"><span className="text-white/60">Kompleksitas:</span> <span className="text-white font-bold text-indigo-300">{complexityTier}</span></div>
               <div className="flex justify-between border-b border-white/10 pb-3"><span className="text-white/60">Halaman:</span> <span className="text-white">{pages} Pcs</span></div>
               <div className="flex justify-between border-b border-white/10 pb-3"><span className="text-white/60">UI/UX:</span> <span className="text-white">{designTier}</span></div>
               <div className="flex justify-between border-b border-white/10 pb-3"><span className="text-white/60">Panel Admin:</span> <span className="text-white">{cmsTier}</span></div>
@@ -296,7 +332,7 @@ export default function CalculatorPage() {
               customerName={customers.find(c => c.id === selectedCustomerId)?.name || "Klien Umum"}
               projectData={{
                 name: projectName || "Estimasi Layanan",
-                webType, pages, designTier, cmsTier, paymentGateway, 
+                webType, pages, complexityTier, designTier, cmsTier, paymentGateway, 
                 apiIntegration, securityTier, languages, hostingTier,
                 totalPrice: calculateTotal()
               }}

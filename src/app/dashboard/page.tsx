@@ -141,7 +141,14 @@ export default async function DashboardPage() {
                               {project.name}
                             </td>
                             <td className="py-4 px-5 text-gray-600">
-                              {project.pages} Halaman • {project.cmsTier ? 'CMS' : 'No CMS'}
+                              <div className="font-medium text-slate-800 text-xs">{project.webType}</div>
+                              <div className="text-xs text-slate-400 mt-0.5 flex items-center gap-1.5">
+                                <span>{project.pages} Halaman</span>
+                                <span>•</span>
+                                <span className="text-indigo-600 font-semibold bg-indigo-50 px-1.5 py-0.5 rounded text-[11px]">{project.complexityTier || "Sederhana"}</span>
+                                <span>•</span>
+                                <span>{project.cmsTier ? 'CMS' : 'No CMS'}</span>
+                              </div>
                             </td>
                             <td className="py-4 px-5 text-gray-500">
                               <div className="flex items-center gap-2">

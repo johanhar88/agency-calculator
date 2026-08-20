@@ -38,6 +38,7 @@ export default function PrintPDF({
     // Menyusun Data Tabel dari Spesifikasi Lengkap
     const tableData = [
       ["Tipe Website / Sistem", projectData.webType],
+      ["Tingkat Kompleksitas", projectData.complexityTier || "Sederhana"],
       ["Jumlah Halaman", `${projectData.pages} Halaman`],
       ["Desain UI/UX", projectData.designTier],
       ["Sistem CMS (Admin)", projectData.cmsTier],

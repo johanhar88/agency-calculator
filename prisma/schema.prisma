@@ -26,6 +26,7 @@ model Project {
   // Parameter Baru
   webType         String   // e.g., "Company Profile", "E-Commerce", "SaaS"
   pages           Int
+  complexityTier  String   @default("Sederhana") // e.g., "Sederhana", "Menengah", "Kompleks", "Sangat Kompleks"
   designTier      String   // e.g., "Template", "Custom", "Premium"
   cmsTier         String   // e.g., "Tanpa CMS", "Basic CMS", "Custom Admin"
   paymentGateway  Boolean  @default(false)
@@ -54,6 +55,12 @@ model PricingConfig {
   
   // Halaman
   pricePerPage       Float    @default(400000)
+
+  // Tingkat Kompleksitas
+  complexityLow      Float    @default(0)
+  complexityMedium   Float    @default(3500000)
+  complexityHigh     Float    @default(7500000)
+  complexityVeryHigh Float    @default(15000000)
   
   // Desain
   designCustom       Float    @default(2500000)
