@@ -9,8 +9,15 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "framer-motion": "^13.1.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
+    "lucide-react": "^1.32.0",
     "next": "16.3.1",
+    "next-auth": "^4.24.15",
     "react": "19.2.8",
+    "react-countup": "^6.5.3",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
@@ -20,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
+    "prisma": "^5.22.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
