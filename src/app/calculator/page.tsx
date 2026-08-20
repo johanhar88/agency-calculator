@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { signOut } from "next-auth/react";
-import Link from "next/link";
 import { motion } from "framer-motion"; // Library Animasi
 import CountUp from "react-countup"; // Animasi Angka
 import { 
-  LogOut, Rocket, Layout , UserPlus, Save, 
+  Rocket, Layout , UserPlus, Save, 
   CreditCard , Server , Database, Settings
 } from "lucide-react";
 import { getCustomers, createCustomer, saveProject, getPricingConfig } from "@/actions/dbActions";
 import PrintPDF from "@/components/PrintPDF";
 import CustomSelect from "@/components/CustomSelect";
+import Sidebar from "@/components/Sidebar";
 
 export default function CalculatorPage() {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -89,23 +88,18 @@ export default function CalculatorPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-12 font-sans selection:bg-blue-200">
-      
-      {/* Navbar Premium dengan Glassmorphism */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-slate-200/60">
-        <div className="flex items-center gap-2 text-indigo-700 font-extrabold text-xl tracking-tight">
-          <Rocket size={24} className="text-blue-600" /> JH Builds
+    <Sidebar>
+      <div className="p-6 md:p-8 max-w-7xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-2.5">
+            <Rocket className="text-indigo-600" size={28} /> Kalkulator Estimasi Biaya
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">
+            Hitung rincian biaya pembuatan website secara instan dan simpan langsung ke CRM.
+          </p>
         </div>
-        <div className="flex items-center gap-6 text-sm">
-          <Link href="/dashboard" className="text-slate-600 font-semibold hover:text-indigo-600 transition">Dashboard</Link>
-          <Link href="/master-data" className="text-slate-600 font-semibold hover:text-indigo-600 transition flex items-center gap-1"><Settings size={16}/> Master Data</Link>
-          <button onClick={() => signOut({ callbackUrl: '/' })} className="flex items-center gap-2 text-slate-500 hover:text-red-500 transition font-semibold border-l pl-4 border-slate-300">
-            <LogOut size={16} /> Keluar
-          </button>
-        </div>
-      </nav>
 
-      <div className="max-w-7xl mx-auto p-6 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Kolom Kiri: Form & Kalkulator */}
         <motion.div 
@@ -310,6 +304,7 @@ export default function CalculatorPage() {
           </div>
         </motion.div>
       </div>
-    </div>
+      </div>
+    </Sidebar>
   );
 }

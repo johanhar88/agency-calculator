@@ -6,12 +6,13 @@ import {
   Users, 
   Briefcase, 
   DollarSign, 
-  ArrowLeft,
-  Building,
-  Calendar,
-  LogOut, LayoutDashboard, Edit
+  Building, 
+  Calendar, 
+  LayoutDashboard, 
+  Edit 
 } from "lucide-react";
 import PrintPDF from "@/components/PrintPDF";
+import Sidebar from "@/components/Sidebar";
 
 // Server Component (Tidak menggunakan "use client")
 export default async function DashboardPage() {
@@ -46,24 +47,16 @@ export default async function DashboardPage() {
     new Intl.DateTimeFormat("id-ID", { dateStyle: "medium" }).format(date);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
-      {/* Navbar */}
-      <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-4">
-          <Link href="/calculator" className="text-gray-500 hover:text-blue-600 transition flex items-center gap-1 bg-gray-100 px-3 py-1.5 rounded-lg text-sm font-medium">
-            <ArrowLeft size={16} /> Kembali ke Kalkulator
-          </Link>
-          <div className="text-xl font-bold text-gray-800 ml-4 border-l pl-4 border-gray-300 flex items-center gap-2">
-            <LayoutDashboard size={24} className="text-blue-600" />Dashboard
-          </div>
+    <Sidebar>
+      <div className="p-6 md:p-8 max-w-6xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-2.5">
+            <LayoutDashboard className="text-indigo-600" size={28} /> Dashboard Proyek
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">
+            Ringkasan data klien, riwayat proposal proyek, dan total estimasi pendapatan.
+          </p>
         </div>
-        {/* NextAuth menyediakan rute bawaan /api/auth/signout untuk logout dari sisi server/tanpa state */}
-        <Link href="/api/auth/signout" className="flex items-center gap-2 text-gray-600 hover:text-red-600 transition font-medium">
-          <LogOut size={18} /> Keluar
-        </Link>
-      </nav>
-
-      <div className="max-w-6xl mx-auto p-6 mt-6">
         
         {/* Section: Widget Ringkasan (Summary) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -187,6 +180,6 @@ export default async function DashboardPage() {
         )}
         
       </div>
-    </div>
+    </Sidebar>
   );
 }

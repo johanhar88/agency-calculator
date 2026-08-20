@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useSession } from "next-auth/react"; // 1. TAMBAHKAN IMPORT INI
-import { redirect } from "next/navigation";   // 2. TAMBAHKAN IMPORT INI
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ArrowLeft, Database, DollarSign, Users, Trash2, 
+  Database, DollarSign, Users, Trash2, 
   Save, Layout, Globe, Server, ShieldCheck 
 } from "lucide-react";
 import { getCustomers, deleteCustomer, getPricingConfig, updatePricingConfig } from "@/actions/dbActions";
+import Sidebar from "@/components/Sidebar";
 
 type Customer = {
   id: string;
@@ -88,6 +88,7 @@ const PriceInput = ({
 // KOMPONEN UTAMA
 // ==========================================
 export default function MasterDataPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("pricing");
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [pricing, setPricing] = useState<PricingConfig | null>(null);
@@ -97,7 +98,7 @@ export default function MasterDataPage() {
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/"); // Jika ketahuan tidak login, tendang ke home
+      router.replace("/");
     },
   });
 
@@ -182,30 +183,30 @@ export default function MasterDataPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-12 font-sans selection:bg-indigo-200">
-      
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-50 border-b border-slate-200/60">
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-slate-500 hover:text-indigo-600 transition flex items-center gap-1.5 bg-slate-100 hover:bg-indigo-50 px-3 py-2 rounded-lg text-sm font-bold">
-            <ArrowLeft size={16} /> Dashboard
-          </Link>
-          <div className="text-xl font-extrabold text-slate-800 border-l pl-4 border-slate-300 flex items-center gap-2">
-            <Database size={24} className="text-indigo-600" /> Master Data
-          </div>
-        </div>
+    <Sidebar>
+      <div className="p-6 md:p-8 max-w-6xl mx-auto">
         
-        {activeTab === "pricing" && (
-          <button 
-            onClick={savePricing} 
-            disabled={isSaving}
-            className="bg-indigo-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-70"
-          >
-            <Save size={18} /> {isSaving ? "Menyimpan..." : "Simpan Harga"}
-          </button>
-        )}
-      </nav>
+        {/* Page Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-2.5">
+              <Database className="text-indigo-600" size={28} /> Master Data & Konfigurasi
+            </h1>
+            <p className="text-slate-500 text-sm mt-1">
+              Kelola tarif harga standar komponen website dan kelola database master klien.
+            </p>
+          </div>
 
-      <div className="max-w-6xl mx-auto p-6 mt-6">
+          {activeTab === "pricing" && (
+            <button 
+              onClick={savePricing} 
+              disabled={isSaving}
+              className="self-start md:self-auto bg-indigo-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-70 cursor-pointer"
+            >
+              <Save size={18} /> {isSaving ? "Menyimpan..." : "Simpan Perubahan Harga"}
+            </button>
+          )}
+        </div>
         
         <div className="flex justify-center mb-10">
           <div className="bg-slate-200/70 p-1.5 rounded-2xl flex gap-1 shadow-inner">
@@ -357,6 +358,6 @@ export default function MasterDataPage() {
         </AnimatePresence>
 
       </div>
-    </div>
+    </Sidebar>
   );
 }
