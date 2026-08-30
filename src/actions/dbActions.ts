@@ -3,14 +3,54 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+// ----- Types -----
+export type ProjectInput = {
+  name: string;
+  webType: string;
+  pages: number;
+  complexityTier?: string;
+  designTier: string;
+  cmsTier: string;
+  paymentGateway?: boolean;
+  apiIntegration?: boolean;
+  securityTier: string;
+  languages: number;
+  hostingTier: string;
+  totalPrice: number;
+  customerId: string;
+};
+
+export type PricingInput = Partial<{
+  landingPage: number;
+  companyProfile: number;
+  eCommerce: number;
+  webApp: number;
+  pricePerPage: number;
+  complexityLow: number;
+  complexityMedium: number;
+  complexityHigh: number;
+  complexityVeryHigh: number;
+  designCustom: number;
+  designPremium: number;
+  cmsBasic: number;
+  cmsCustom: number;
+  paymentGateway: number;
+  apiIntegration: number;
+  langMultiplier: number;
+  securityAdvanced: number;
+  hostingShared: number;
+  hostingVPS: number;
+  hostingDedicated: number;
+}>;
+
 // ==========================================
 // 1. FUNGSI CUSTOMER & PROJECT (Kalkulator)
 // ==========================================
 
 export async function getCustomers() {
   return await prisma.customer.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: { projects: true }
+    orderBy: { createdAt: "desc" },
+    include: { projects: true },
   });
 }
 
@@ -24,7 +64,7 @@ export async function createCustomer(formData: FormData) {
   revalidatePath("/calculator");
 }
 
-export async function saveProject(data: any) {
+export async function saveProject(data: ProjectInput) {
   await prisma.project.create({
     data: {
       name: data.name,
@@ -40,7 +80,7 @@ export async function saveProject(data: any) {
       hostingTier: data.hostingTier,
       totalPrice: data.totalPrice,
       customerId: data.customerId,
-    }
+    },
   });
   revalidatePath("/dashboard");
 }
@@ -70,7 +110,7 @@ export async function getPricingConfig() {
   return config;
 }
 
-export async function updatePricingConfig(data: any) {
+export async function updatePricingConfig(data: PricingInput) {
   await prisma.pricingConfig.update({
     where: { id: 1 },
     data: {
@@ -94,7 +134,7 @@ export async function updatePricingConfig(data: any) {
       hostingShared: Number(data.hostingShared),
       hostingVPS: Number(data.hostingVPS),
       hostingDedicated: Number(data.hostingDedicated),
-    }
+    },
   });
   revalidatePath("/master-data");
   revalidatePath("/calculator");
@@ -108,7 +148,7 @@ export async function getProjectById(id: string) {
   return await prisma.project.findUnique({ where: { id } });
 }
 
-export async function updateProject(id: string, data: any) {
+export async function updateProject(id: string, data: ProjectInput) {
   await prisma.project.update({
     where: { id },
     data: {
@@ -125,7 +165,7 @@ export async function updateProject(id: string, data: any) {
       hostingTier: data.hostingTier,
       totalPrice: data.totalPrice,
       customerId: data.customerId,
-    }
+    },
   });
   revalidatePath("/dashboard");
 }

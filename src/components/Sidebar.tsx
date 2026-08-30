@@ -5,17 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Calculator, 
-  LayoutDashboard, 
-  Database, 
-  LogOut, 
-  ChevronLeft, 
-  ChevronRight, 
-  Menu, 
-  X, 
-  Layers
-} from "lucide-react";
+import { Calculator, LayoutDashboard, Database, LogOut, ChevronLeft, ChevronRight, Menu, X, Layers } from "lucide-react";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -51,11 +41,14 @@ export default function Sidebar({ children }: SidebarProps) {
 
   // Simpan preferensi collapse di localStorage
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("sidebar_collapsed");
-    if (saved !== null) {
-      setIsCollapsed(saved === "true");
-    }
+    const id = setTimeout(() => {
+      setMounted(true);
+      const saved = localStorage.getItem("sidebar_collapsed");
+      if (saved !== null) {
+        setIsCollapsed(saved === "true");
+      }
+    }, 0);
+    return () => clearTimeout(id);
   }, []);
 
   const toggleCollapse = () => {
@@ -79,8 +72,7 @@ export default function Sidebar({ children }: SidebarProps) {
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition"
-          aria-label="Toggle Menu"
-        >
+          aria-label="Toggle Menu">
           {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </header>
@@ -106,17 +98,15 @@ export default function Sidebar({ children }: SidebarProps) {
         transition={{ duration: 0.25, ease: "easeInOut" }}
         className={`fixed md:sticky top-0 left-0 h-screen bg-white border-r border-slate-200 z-50 flex flex-col justify-between shadow-sm md:shadow-none transition-transform md:translate-x-0 shrink-0 ${
           isMobileOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"
-        }`}
-      >
+        }`}>
         {/* Top Header & Brand Section */}
         <div className="flex flex-col">
           <div className={`h-16 border-b border-slate-100 flex items-center ${isCollapsed ? "justify-center px-2" : "justify-between px-4"}`}>
             {isCollapsed ? (
               <button
                 onClick={toggleCollapse}
-                className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white flex items-center justify-center transition shadow-sm"
-                title="Perluas Sidebar"
-              >
+                className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white flex items-center justify-center transition shadow-sm cursor-pointer"
+                title="Perluas Sidebar">
                 <ChevronRight size={20} />
               </button>
             ) : (
@@ -126,20 +116,15 @@ export default function Sidebar({ children }: SidebarProps) {
                     <Layers size={20} />
                   </div>
                   <div className="flex flex-col whitespace-nowrap overflow-hidden">
-                    <span className="font-extrabold text-slate-800 text-base leading-tight tracking-tight">
-                      JH Builds
-                    </span>
-                    <span className="text-[11px] font-medium text-slate-400">
-                      Agency Pricing
-                    </span>
+                    <span className="font-extrabold text-slate-800 text-base leading-tight tracking-tight">JH Builds</span>
+                    <span className="text-[11px] font-medium text-slate-400">Agency Pricing</span>
                   </div>
                 </div>
 
                 <button
                   onClick={toggleCollapse}
                   className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition shrink-0 cursor-pointer"
-                  title="Sembunyikan Sidebar"
-                >
+                  title="Sembunyikan Sidebar">
                   <ChevronLeft size={18} />
                 </button>
               </>
@@ -157,28 +142,15 @@ export default function Sidebar({ children }: SidebarProps) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
-                  className={`group relative flex items-center transition-all duration-150 rounded-xl ${
-                    isCollapsed 
-                      ? "w-11 h-11 mx-auto justify-center" 
-                      : "gap-3 px-3.5 py-3 w-full"
-                  } ${
-                    isActive
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 font-bold"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium"
-                  }`}
-                >
+                  className={`group relative flex items-center transition-all duration-150 rounded-xl ${isCollapsed ? "w-11 h-11 mx-auto justify-center" : "gap-3 px-3.5 py-3 w-full"} ${
+                    isActive ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 font-bold" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium"
+                  }`}>
                   <Icon
                     size={20}
-                    className={`shrink-0 transition-transform duration-150 group-hover:scale-105 ${
-                      isActive ? "text-white" : "text-slate-500 group-hover:text-indigo-600"
-                    }`}
+                    className={`shrink-0 transition-transform duration-150 group-hover:scale-105 ${isActive ? "text-white" : "text-slate-500 group-hover:text-indigo-600"}`}
                   />
 
-                  {!isCollapsed && (
-                    <span className="text-sm truncate">
-                      {item.name}
-                    </span>
-                  )}
+                  {!isCollapsed && <span className="text-sm truncate">{item.name}</span>}
 
                   {/* Tooltip Hover saat Collapsed */}
                   {isCollapsed && (
@@ -197,17 +169,15 @@ export default function Sidebar({ children }: SidebarProps) {
         <div className={`p-3 border-t border-slate-100 ${isCollapsed ? "flex flex-col items-center gap-2 px-2" : ""}`}>
           {isCollapsed ? (
             <>
-              <div 
+              <div
                 className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-sm shadow-sm"
-                title={session?.user?.name || "Admin Agency"}
-              >
+                title={session?.user?.name || "Admin Agency"}>
                 {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "A"}
               </div>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="w-10 h-10 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition cursor-pointer"
-                title="Keluar / Logout"
-              >
+                title="Keluar / Logout">
                 <LogOut size={18} />
               </button>
             </>
@@ -218,20 +188,15 @@ export default function Sidebar({ children }: SidebarProps) {
                   {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "A"}
                 </div>
                 <div className="flex flex-col overflow-hidden">
-                  <span className="text-xs font-bold text-slate-800 truncate">
-                    {session?.user?.name || "Admin Agency"}
-                  </span>
-                  <span className="text-[10px] text-slate-400 truncate">
-                    {session?.user?.email || "admin@agency.com"}
-                  </span>
+                  <span className="text-xs font-bold text-slate-800 truncate">{session?.user?.name || "Admin Agency"}</span>
+                  <span className="text-[10px] text-slate-400 truncate">{session?.user?.email || "admin@agency.com"}</span>
                 </div>
               </div>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="text-slate-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition cursor-pointer shrink-0"
-                title="Keluar / Logout"
-              >
+                title="Keluar / Logout">
                 <LogOut size={16} />
               </button>
             </div>
@@ -240,9 +205,7 @@ export default function Sidebar({ children }: SidebarProps) {
       </motion.aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 w-full overflow-x-hidden min-w-0">
-        {children}
-      </main>
+      <main className="flex-1 w-full overflow-x-hidden min-w-0">{children}</main>
     </div>
   );
 }

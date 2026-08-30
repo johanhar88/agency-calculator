@@ -1,0 +1,46 @@
+TERMS & CONDITIONS
+Application Development Project
+
+1. Scope of Work
+Pekerjaan pengembangan aplikasi akan dilakukan sesuai dengan scope, fitur, dan spesifikasi yang telah disepakati dalam proposal/quotation. Setiap fitur atau pekerjaan di luar scope akan dianggap sebagai additional work dan dapat dikenakan biaya tambahan.
+
+2. Project Timeline
+Estimasi waktu pengerjaan mengikuti timeline yang telah disepakati. Perubahan requirement, keterlambatan pemberian data/material, approval, atau feedback dari Client dapat menyebabkan perubahan timeline proyek.
+
+3. Revisions / Changes
+Client mendapatkan maksimal 2 (dua) kali revisi untuk setiap fitur atau modul yang telah disepakati. Revisi hanya berlaku untuk penyesuaian terhadap requirement awal.
+
+Perubahan konsep, penambahan fitur, perubahan alur bisnis, atau perubahan requirement setelah approval akan dianggap sebagai Change Request dan dapat dikenakan biaya serta penyesuaian timeline.
+
+4. Change Request
+Setiap permintaan perubahan di luar scope awal akan dievaluasi terlebih dahulu oleh Developer, termasuk dampaknya terhadap biaya dan timeline. Pekerjaan tambahan hanya akan dilakukan setelah mendapatkan persetujuan dari Client.
+
+5. Payment Terms
+Pembayaran dilakukan berdasarkan termin yang telah disepakati dalam proposal/quotation. Pengerjaan dapat ditunda apabila terdapat pembayaran yang belum diselesaikan sesuai jadwal.
+
+6. Testing & Approval
+Client wajib melakukan testing dan memberikan feedback/approval dalam waktu maksimal 5 (lima) hari kerja setelah fitur atau aplikasi diserahkan untuk testing. Apabila tidak terdapat feedback dalam periode tersebut, pekerjaan dapat dianggap telah diterima.
+
+7. Warranty / Garansi
+Developer memberikan garansi selama 30 (tiga puluh) hari sejak aplikasi dinyatakan selesai/diterima oleh Client.
+
+Garansi mencakup perbaikan bug atau error yang berasal dari hasil pengembangan Developer dan tidak sesuai dengan requirement yang telah disepakati.
+
+Garansi tidak mencakup:
+
+Penambahan atau perubahan fitur.
+Perubahan requirement atau business process.
+Error yang disebabkan oleh pihak ketiga, server, hosting, API, atau sistem eksternal.
+Perubahan yang dilakukan oleh pihak selain Developer.
+Kerusakan akibat penggunaan aplikasi yang tidak sesuai dengan ketentuan.
+
+8. Maintenance & Additional Development
+Pekerjaan maintenance, enhancement, penambahan fitur, atau perubahan sistem setelah masa garansi akan dianggap sebagai pekerjaan tambahan dan dapat dikenakan biaya sesuai kesepakatan.
+
+9. Third-Party Services
+Biaya layanan pihak ketiga seperti hosting, domain, server, API, payment gateway, SMS/WhatsApp service, Google Maps, atau layanan lainnya tidak termasuk dalam biaya pengembangan kecuali dinyatakan secara khusus dalam proposal.
+
+10. Acceptance
+Aplikasi dianggap selesai apabila seluruh fitur yang tercantum dalam scope telah dikembangkan dan dapat digunakan sesuai dengan requirement yang telah disepakati.
+
+Dengan menyetujui proposal/quotation ini, Client dianggap telah membaca, memahami, dan menyetujui Terms & Conditions yang berlaku.

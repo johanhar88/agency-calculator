@@ -15,7 +15,8 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setMounted(true);
+    const id = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(id);
   }, []);
 
   useEffect(() => {
@@ -73,13 +74,11 @@ export default function LoginPage() {
           <p className="text-gray-500 mt-2 text-sm">Masuk untuk mengakses kalkulator estimasi biaya proyek web.</p>
         </div>
 
-        {error && (
-          <div className="p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg text-center font-medium">
-            {error}
-          </div>
-        )}
+        {error && <div className="p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg text-center font-medium">{error}</div>}
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form
+          onSubmit={handleLogin}
+          className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Username</label>
             <input
@@ -105,8 +104,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition disabled:opacity-50"
-          >
+            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition disabled:opacity-50">
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Masuk ke Aplikasi"}
           </button>
         </form>
