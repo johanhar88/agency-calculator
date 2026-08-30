@@ -4,12 +4,23 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-interface Option { label: string; value: string | number; }
+interface Option {
+  label: string;
+  value: string | number;
+}
 
-export default function CustomSelect({ 
-  label, options, value, onChange 
-}: { 
-  label: string; options: Option[]; value: any; onChange: (val: any) => void 
+export default function CustomSelect({
+  label,
+  options,
+  value,
+  onChange,
+  disabled = false,
+}: {
+  label: string;
+  options: Option[];
+  value: string | number;
+  onChange: (val: string | number) => void;
+  disabled?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,38 +36,49 @@ export default function CustomSelect({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedLabel = options.find(o => o.value === value)?.label || "Pilih opsi...";
+  const selectedLabel = options.find((o) => o.value === value)?.label || "Pilih opsi...";
 
   return (
-    <div className="relative w-full" ref={containerRef}>
+    <div
+      className="relative w-full"
+      ref={containerRef}>
       <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{label}</label>
-      
+
       {/* Tombol Trigger Dropdown */}
-      <div 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 cursor-pointer flex justify-between items-center transition-all duration-200 hover:border-indigo-300 focus:ring-2 focus:ring-indigo-500"
-      >
+      <div
+        onClick={() => {
+          if (!disabled) setIsOpen(!isOpen);
+        }}
+        className={`w-full p-3.5 rounded-xl border flex justify-between items-center transition-all duration-200 ${
+          disabled
+            ? "bg-slate-100/90 border-slate-200 text-slate-500 cursor-not-allowed"
+            : "bg-slate-50 border-slate-200 text-slate-800 cursor-pointer hover:border-indigo-300 focus:ring-2 focus:ring-indigo-500"
+        }`}>
         <span className="text-sm font-medium">{selectedLabel}</span>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-          <ChevronDown size={18} className="text-slate-400" />
+          <ChevronDown
+            size={18}
+            className={disabled ? "text-slate-300" : "text-slate-400"}
+          />
         </motion.div>
       </div>
 
       {/* List Options */}
       <AnimatePresence>
         {isOpen && (
-          <motion.ul 
+          <motion.ul
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl overflow-hidden"
-          >
+            className="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl overflow-hidden">
             {options.map((opt) => (
-              <li 
+              <li
                 key={opt.value}
-                onClick={() => { onChange(opt.value); setIsOpen(false); }}
-                className={`p-3 text-sm cursor-pointer transition-colors ${value === opt.value ? 'bg-indigo-50 text-indigo-700 font-bold' : 'hover:bg-slate-100 text-slate-700'}`}
-              >
+                onClick={() => {
+                  onChange(opt.value);
+                  setIsOpen(false);
+                }}
+                className={`p-3 text-sm cursor-pointer transition-colors ${value === opt.value ? "bg-indigo-50 text-indigo-700 font-bold" : "hover:bg-slate-100 text-slate-700"}`}>
                 {opt.label}
               </li>
             ))}
